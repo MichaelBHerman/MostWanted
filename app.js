@@ -77,7 +77,6 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person single person object using the name they entered.
   return foundPerson;
 }
 
@@ -87,7 +86,6 @@ function searchByEyeColor(people){
 }
 
 //TODO: add other trait filter functions here.
-
 
 
 //#endregion
@@ -107,13 +105,15 @@ function displayPeople(people){
 function displayPerson(person){
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Numerical ID: " + person.id + "\n";
   personInfo += "Gender: " + person.gender + "\n";
   personInfo += "Date of Birth: " + person.dob + "\n";
   personInfo += "Height: " + person.height + "\n";
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-    
+  personInfo += "Parents: " + person.parents + "\n"
+  personInfo += "Spouse ID: " + person.currentSpouse +"\n"
   alert(personInfo);
 }
 

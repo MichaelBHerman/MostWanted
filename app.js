@@ -14,7 +14,7 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
+      findPeopleByTraits();
       break;
       default:
     app(people); // restart app
@@ -60,6 +60,47 @@ function mainMenu(person, people){
 //#endregion
 
 //Filter functions.
+function findPeopleByTraits(){
+  let traitSearch = prompt('What trait would you like to filter people by?  You can select "ID Number", "Gender", "Date of Birth", "Height", "Weight", "Eye Color" "Occupation", "Parents", or "Spouse"')
+  switch(traitSearch.toLowerCase()){
+      case "id":
+      case "id number":
+      case "id #":
+          console.log("testing ID input");
+          break;
+      case "gender":
+      case "sex":
+          console.log("testing gender input");
+          break;
+      case "date of birth":
+      case "dob":
+          console.log("testing DOB");
+          break;
+      case "height":
+          console.log("testing height");
+          break;
+      case "weight":
+      case "lbs":
+          console.log("testing weight");
+          break;
+      case "eye color":
+      case "eyes":
+          console.log("testing eye color");
+          break;
+      case "occupation":
+      case "job":
+      case "profession":
+          console.log("testing occupation");
+          break;
+      case "parents":
+          console.log("testing parents");
+          break;
+      case "spouse":
+      case "married":
+          console.log("testing marriage");
+          break;
+  }
+}
 //Ideally you will have a function for each trait.
 /////////////////////////////////////////////////////////////////
 //#region 

@@ -1,5 +1,19 @@
 # MostWanted
 This is dCC's week 2 project.  MostWanted
 
-This is a push test by Midnight
-this is a push test by Michael!
+# How We've Divided Tasks
+09/01 Gone over User Stories and the code we've been provided with together
+09/01 Ran through debugger together, sharing screens, asking questions
+09/01 Midnight: Wrote part of Display Info
+09/01 Figured out how to make Billy Bob display (with the help of David)
+09/01 Divide and conquer tasks 
+    - Midnight: finish the display info; individual traits: gender, dob, height, weight
+    - Michael: eye color, occupation, has parent, has spouse
+09/01 Will talk about those functions before committing any of them.
+
+
+# Commit Comments
+09/01 Starting to utilize the README, have commited a few times and starting to get the hang of Git!
+09/01 This is a push test by Midnight
+09/01 This is a push test by Michael!
+

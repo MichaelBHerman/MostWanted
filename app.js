@@ -66,7 +66,7 @@ function findPeopleByTraits(people){
       case "id":
       case "id number":
       case "id #":
-          console.log("testing ID input");
+          searchUsersByID(people);
           break;
       case "gender":
       case "sex":
@@ -208,6 +208,16 @@ function searchUsersByWeight(people){
   })
   displayPeople(peopleByWeight)
 }
+function searchUsersByID(people){
+  let userInput = promptForID("If for some reason you can't remember a person's name but you can remember their 9 digit ID number, enter the numerical ID below.")
+  let peopleByID = [];
+  peopleByID = people.filter(function(people){
+      if(people.id == userInput){
+          return peopleByID;
+      }
+  })
+  displayPeople(peopleByID)
+}
 //TODO: add other trait filter functions here.
 
 
@@ -310,6 +320,16 @@ function promptForWeight(question, valid){
     var response = prompt(question).trim();
     valid = response > 99 && response < 257
     isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
+function promptForID(question, valid){
+  let isValid;
+  do{
+      var response = prompt(question).trim();
+      let x = response.charAt(0) && response.charAt(1) && response.charAt(2)&& response.charAt(3)&& response.charAt(4)&& response.charAt(5)&& response.charAt(6)&& response.charAt(7)&& response.charAt(8)&& response.charAt(9)
+      valid = x >= 0 && x<=9;
+      isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
 }

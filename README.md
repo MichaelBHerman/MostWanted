@@ -18,7 +18,8 @@ This is dCC's week 2 project.  MostWanted
 
 
 # Commit Comments
-09/01 Added search function by gender and returns a list of names for each one  - confirmed male and female
+09/02 Added Draw.IO diagram to help keep things straight, merged files, added a few small bits of changes to gender  
+09/01 Added search function by gender and returns a list of names for each one  - confirmed male and female  
 09/01 Added switch case for traits  
 09/01 Added other info (Id, parents, spouse) to "display info"  
 09/01 Starting to utilize the README, have commited a few times and starting to get the hang of Git!  

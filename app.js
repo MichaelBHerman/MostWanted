@@ -11,25 +11,18 @@ function app(people){
   let searchResults;
   switch(searchType){
     case 'yes':
-      searchResults = searchByName(people); searchByEyeColor(people); //I WOULD ADD THE NEW FUNCTION HERE I.E. SEARCHBYEYECOLOR
+      searchResults = searchByName(people); 
       break;
     case 'no':
-<<<<<<< HEAD
-       promptFor("Do you know the person's eye color? Enter 'yes' or 'no'", yesNo).toLowerCase();
-       promptFor("Do you know the person's occupation? Enter 'yes' or 'no'", yesNo).toLowerCase(); // TODO: search by traits
-       promptFor("Do you know the name of the person's current spouse? 'yes' or 'no'", yesNo).toLowerCase()
-       break;
-=======
       findPeopleByTraits(people);
       break;
->>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
       default:
     app(people); // restart app
       break;
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults[0], people);
+  mainMenu(searchResults, people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -163,15 +156,15 @@ let foundOccupation = people.filter(function(potentialMatch){
 function searchByParents(people){                                  //PARENT FINDER
   let parents = promptFor("What is the person's parents first name?") //need to find parents id # based on first and last name
 }
-<<<<<<< HEAD
 
 
 
 function searchByCurrentSpouse(people){                           //SPOUSE FINDER
-  let currentSpouse = promptFor("What is the name of the person's current spouse?")
-=======
+  let currentSpouse = promptFor("What is the name of the person's current spouse?")}
+
 function searchUsersByGender(people){
   let userInput = prompt("What gender do you want to search for today?")
+
   if(userInput.toLowerCase() === "male"){
       let men = [];
       men = people.filter(function(people){
@@ -191,9 +184,9 @@ function searchUsersByGender(people){
     displayPeople(women)
   }
   else if(userInput === "binary" || userInput === "cis" || userInput === "transgender"){
-    alert("We do not currently have anyone of those genders in our list");
+    alert("We do not currently have anyone of those genders in our list.  Please input \"male\" or \"female\" for now.");
+    searchUsersByGender(people);
   } 
->>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
 }
 //TODO: add other trait filter functions here.
 
@@ -241,13 +234,8 @@ function displayPerson(person){
 //isValid: Will capture the return of the validation function callback. true(the user input is valid)/false(the user input was not valid).
 //this function will continue to loop until the user enters something that is not an empty string("") or is considered valid based off the callback function(valid).
 function promptFor(question, valid){
-<<<<<<< HEAD
-    let isValid;
-    do{
-=======
   let isValid;
   do{
->>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
     var response = prompt(question).trim();
     isValid = valid(response);
   } while(response === ""  ||  isValid === false)

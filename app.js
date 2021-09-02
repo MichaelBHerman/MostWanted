@@ -12,10 +12,10 @@ function app(people){
   let searchResults;
   switch(searchType){
     case 'yes':
-      searchResults = searchByName(people);
+      searchResults = searchByName(people); 
       break;
     case 'no':
-      findPeopleByTraits(people);  
+      findPeopleByTraits(people);
       break;
       default:
     app(people); // restart app
@@ -23,7 +23,7 @@ function app(people){
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults[0], people);
+  mainMenu(searchResults, people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -68,22 +68,22 @@ function findPeopleByTraits(people){
       case "id":
       case "id number":
       case "id #":
-          console.log("testing ID input");
+          searchUsersByID(people);
           break;
       case "gender":
       case "sex":
           searchUsersByGender(people);
-          break;
+          return;
       case "date of birth":
       case "dob":
-          console.log("testing DOB");
+          searchUsersByDOB(people);
           break;
       case "height":
-          console.log("testing height");
+          searchUsersByHeight(people);
           break;
       case "weight":
       case "lbs":
-          console.log("testing weight");
+          searchUsersByWeight(people);
           break;
       case "eye color":
       case "eyes":
@@ -150,7 +150,6 @@ function searchByEyeColor(people){
       displayPeople(occupation);
    }
   } 
-
   function searchUsersByGender(people){
     let userInput = prompt("What gender do you want to search for today?")
     if(userInput.toLowerCase() === "male"){
@@ -189,6 +188,49 @@ function searchByEyeColor(people){
     }
   }
     //TODO: add other trait filter functions here.
+
+
+function searchUsersByHeight(people){
+  let userInput = promptForHeight("Do you know the height of the individual in inches?  If so, please enter it.")
+  let peopleByHeight = [];
+  peopleByHeight = people.filter(function(people){
+      if(people.height == userInput){
+          return peopleByHeight;
+      }
+  })
+  displayPeople(peopleByHeight);
+}
+function searchUsersByWeight(people){
+  let userInput = promptForWeight("Do you know the weight of the individual in pounds?  If so, please enter it.")
+  let peopleByWeight = [];
+  peopleByWeight = people.filter(function(people){
+      if(people.weight == userInput){
+          return peopleByWeight;
+      }
+  })
+  displayPeople(peopleByWeight)
+}
+function searchUsersByID(people){
+  let userInput = promptForID("If for some reason you can't remember a person's name but you can remember their 9 digit ID number, enter the numerical ID below.")
+  let peopleByID = [];
+  peopleByID = people.filter(function(people){
+      if(people.id == userInput){
+          return peopleByID;
+      }
+  })
+  displayPeople(peopleByID)
+}
+function searchUsersByDOB(people){
+  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
+  let peopleByDOB = [];
+  peopleByDOB = people.filter(function(people){
+      if(people.dob == userInput){
+          return peopleByDOB;
+      }
+  })
+  displayPeople(peopleByDOB)
+}
+//TODO: add other trait filter functions here.
 
 
 
@@ -265,4 +307,51 @@ function customValidation(input){
   
 }
 
+function promptForGender(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = "male"||"female"||"cis"||"transgender"||"binary";
+    isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
+function promptForHeight(question, valid){
+    let isValid;
+    do{
+      var response = prompt(question).trim();
+      valid = 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77
+      isValid = valid
+    } while(response === ""  ||  isValid === false)
+    return response;
+}
+function promptForWeight(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = response > 99 && response < 257
+    isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
+function promptForID(question, valid){
+  let isValid;
+  do{
+      var response = prompt(question).trim();
+      let x = response.charAt(0) && response.charAt(1) && response.charAt(2)&& response.charAt(3)&& response.charAt(4)&& response.charAt(5)&& response.charAt(6)&& response.charAt(7)&& response.charAt(8)&& response.charAt(9)
+      valid = x >= 0 && x<=9;
+      isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
+function searchUsersByDOB(people){
+  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
+  let peopleByDOB = [];
+  peopleByDOB = people.filter(function(people){
+      if(people.dob == userInput){
+          return peopleByDOB;
+      }
+  })
+  displayPeople(peopleByDOB)
+}
 //#endregion

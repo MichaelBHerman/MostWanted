@@ -12,18 +12,20 @@ function app(people){
   let searchResults;
   switch(searchType){
     case 'yes':
-      searchResults = searchByName(people);
+      searchResults = searchByName(people); searchByEyeColor(people); //I WOULD ADD THE NEW FUNCTION HERE I.E. SEARCHBYEYECOLOR
       break;
     case 'no':
-      // TODO: search by traits
-      break;
+       promptFor("Do you know the person's eye color? Enter 'yes' or 'no'", yesNo).toLowerCase();
+       promptFor("Do you know the person's occupation? Enter 'yes' or 'no'", yesNo).toLowerCase(); // TODO: search by traits
+       promptFor("Do you know the name of the person's current spouse? 'yes' or 'no'", yesNo).toLowerCase()
+       break;
       default:
     app(people); // restart app
       break;
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  mainMenu(searchResults[0], people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -80,13 +82,49 @@ function searchByName(people){
   })
   // TODO: find the person single person object using the name they entered.
   return foundPerson;
+
 }
 
 //unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
 function searchByEyeColor(people){
+let eyeColor = promptFor("What is the person's eye color?", autoValid);
+
+let foundEyeColor = people.filter(function(potentialMatch){
+  if(potentialMatch.eyeColor === eyeColor){
+    return true;
+}
+  else{
+    return false;
+  }
+  })
+  return foundEyeColor;
 
 }
 
+function searchByOccupation(people){                  //OCCUPATION FINDER
+  let occupation = promptFor("What is the person's occupation?", autoValid);
+
+let foundOccupation = people.filter(function(potentialMatch){
+  if(potentialMatch.occupation === occupation){
+    return true;
+  }
+  else{
+    return false;
+  }
+  })
+  return foundOccupation;
+
+}
+
+function searchByParents(people){                                  //PARENT FINDER
+  let parents = promptFor("What is the person's parents first name?") //need to find parents id # based on first and last name
+}
+
+
+
+function searchByCurrentSpouse(people){                           //SPOUSE FINDER
+  let currentSpouse = promptFor("What is the name of the person's current spouse?")
+}
 //TODO: add other trait filter functions here.
 
 
@@ -128,7 +166,7 @@ function displayPerson(person){
 //isValid: Will capture the return of the validation function callback. true(the user input is valid)/false(the user input was not valid).
 //this function will continue to loop until the user enters something that is not an empty string("") or is considered valid based off the callback function(valid).
 function promptFor(question, valid){
-  let isValid;
+    let isValid;
     do{
     var response = prompt(question).trim();
     isValid = valid(response);

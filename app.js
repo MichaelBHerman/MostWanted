@@ -71,13 +71,13 @@ function findPeopleByTraits(people){
       case "gender":
       case "sex":
           searchUsersByGender(people);
-          break;
+          return;
       case "date of birth":
       case "dob":
           console.log("testing DOB");
           break;
       case "height":
-          console.log("testing height");
+          searchUsersByHeight(people);
           break;
       case "weight":
       case "lbs":
@@ -119,7 +119,6 @@ function searchByName(people){
     }
   })
   return foundPerson;
-
 }
 
 //unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
@@ -163,7 +162,7 @@ function searchByCurrentSpouse(people){                           //SPOUSE FINDE
   let currentSpouse = promptFor("What is the name of the person's current spouse?")}
 
 function searchUsersByGender(people){
-  let userInput = prompt("What gender do you want to search for today?")
+  let userInput = promptForGender("What gender do you want to search for today?  Please enter \"male\" or \"female\"")
 
   if(userInput.toLowerCase() === "male"){
       let men = [];
@@ -187,6 +186,18 @@ function searchUsersByGender(people){
     alert("We do not currently have anyone of those genders in our list.  Please input \"male\" or \"female\" for now.");
     searchUsersByGender(people);
   } 
+}
+
+function searchUsersByHeight(people){
+  let userInput = promptForHeight("Do you know the height of the individual in inches?  If so, please enter it.")
+  let peopleByHeight = [];
+  peopleByHeight = people.filter(function(people){
+      if(people.height == userInput){
+          return peopleByHeight;
+      }
+  })
+  
+  displayPeople(peopleByHeight);
 }
 //TODO: add other trait filter functions here.
 
@@ -264,4 +275,23 @@ function customValidation(input){
   
 }
 
+function promptForGender(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = "male" || "female"||"cis"||"transgender"||"binary";
+    isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
+
+function promptForHeight(question, valid){
+    let isValid;
+    do{
+      var response = prompt(question).trim();
+      valid = 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77
+      isValid = valid
+    } while(response === ""  ||  isValid === false)
+    return response;
+  }
 //#endregion

@@ -74,7 +74,7 @@ function findPeopleByTraits(people){
           return;
       case "date of birth":
       case "dob":
-          console.log("testing DOB");
+          searchUsersByDOB(people);
           break;
       case "height":
           searchUsersByHeight(people);
@@ -218,6 +218,16 @@ function searchUsersByID(people){
   })
   displayPeople(peopleByID)
 }
+function searchUsersByDOB(people){
+  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
+  let peopleByDOB = [];
+  peopleByDOB = people.filter(function(people){
+      if(people.dob == userInput){
+          return peopleByDOB;
+      }
+  })
+  displayPeople(peopleByDOB)
+}
 //TODO: add other trait filter functions here.
 
 
@@ -298,12 +308,11 @@ function promptForGender(question, valid){
   let isValid;
   do{
     var response = prompt(question).trim();
-    valid = "male" || "female"||"cis"||"transgender"||"binary";
+    valid = "male"||"female"||"cis"||"transgender"||"binary";
     isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
 }
-
 function promptForHeight(question, valid){
     let isValid;
     do{
@@ -312,8 +321,7 @@ function promptForHeight(question, valid){
       isValid = valid
     } while(response === ""  ||  isValid === false)
     return response;
-  }
-
+}
 function promptForWeight(question, valid){
   let isValid;
   do{
@@ -332,5 +340,15 @@ function promptForID(question, valid){
       isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
+}
+function searchUsersByDOB(people){
+  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
+  let peopleByDOB = [];
+  peopleByDOB = people.filter(function(people){
+      if(people.dob == userInput){
+          return peopleByDOB;
+      }
+  })
+  displayPeople(peopleByDOB)
 }
 //#endregion

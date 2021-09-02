@@ -81,7 +81,7 @@ function findPeopleByTraits(people){
           break;
       case "weight":
       case "lbs":
-          console.log("testing weight");
+          searchUsersByWeight(people);
           break;
       case "eye color":
       case "eyes":
@@ -187,7 +187,6 @@ function searchUsersByGender(people){
     searchUsersByGender(people);
   } 
 }
-
 function searchUsersByHeight(people){
   let userInput = promptForHeight("Do you know the height of the individual in inches?  If so, please enter it.")
   let peopleByHeight = [];
@@ -198,6 +197,16 @@ function searchUsersByHeight(people){
   })
   
   displayPeople(peopleByHeight);
+}
+function searchUsersByWeight(people){
+  let userInput = promptForWeight("Do you know the weight of the individual in pounds?  If so, please enter it.")
+  let peopleByWeight = [];
+  peopleByWeight = people.filter(function(people){
+      if(people.weight == userInput){
+          return peopleByWeight;
+      }
+  })
+  displayPeople(peopleByWeight)
 }
 //TODO: add other trait filter functions here.
 
@@ -294,4 +303,14 @@ function promptForHeight(question, valid){
     } while(response === ""  ||  isValid === false)
     return response;
   }
+
+function promptForWeight(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = response > 99 && response < 257
+    isValid = valid
+  } while(response === ""  ||  isValid === false)
+  return response;
+}
 //#endregion

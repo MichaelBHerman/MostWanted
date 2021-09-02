@@ -18,6 +18,7 @@ This is dCC's week 2 project.  MostWanted
 
 
 # Commit Comments
+09/02 Added weight, tested, working;
 09/02 Added height, tested, working;  
 09/02 Added Draw.IO diagram to help keep things straight, merged files, added a few small bits of changes to gender  
 09/01 Added search function by gender and returns a list of names for each one  - confirmed male and female  

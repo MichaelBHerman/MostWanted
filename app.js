@@ -14,7 +14,7 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      findPeopleByTraits();
+      findPeopleByTraits(people);
       break;
       default:
     app(people); // restart app
@@ -22,7 +22,7 @@ function app(people){
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults[0], people);
+  mainMenu(searchResults, people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -35,11 +35,11 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
-  let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
+  let displayOption = promptFor("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
     case "info":
-    displayPerson(person);
+    displayPerson(person[0]);
     break;
     case "family":
     // TODO: get person's family
@@ -60,7 +60,7 @@ function mainMenu(person, people){
 //#endregion
 
 //Filter functions.
-function findPeopleByTraits(){
+function findPeopleByTraits(people){
   let traitSearch = prompt('What trait would you like to filter people by?  You can select "ID Number", "Gender", "Date of Birth", "Height", "Weight", "Eye Color" "Occupation", "Parents", or "Spouse"')
   switch(traitSearch.toLowerCase()){
       case "id":
@@ -70,7 +70,7 @@ function findPeopleByTraits(){
           break;
       case "gender":
       case "sex":
-          console.log("testing gender input");
+          searchUsersByGender(people);
           break;
       case "date of birth":
       case "dob":
@@ -125,7 +125,30 @@ function searchByName(people){
 function searchByEyeColor(people){
 
 }
-
+function searchUsersByGender(people){
+  let userInput = prompt("What gender do you want to search for today?")
+  if(userInput.toLowerCase() === "male"){
+      let men = [];
+      men = people.filter(function(people){
+          if(people.gender === userInput){
+              return men;
+          }
+      })
+      displayPeople(men)
+  } 
+  else if(userInput.toLowerCase() === "female"){
+    let women = [];
+    women = people.filter(function(people){
+        if(people.gender === userInput){
+            return women;
+        }
+    })
+    displayPeople(women)
+  }
+  else if(userInput === "binary" || userInput === "cis" || userInput === "transgender"){
+    alert("We do not currently have anyone of those genders in our list");
+  } 
+}
 //TODO: add other trait filter functions here.
 
 

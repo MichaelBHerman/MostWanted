@@ -1,6 +1,5 @@
 "use strict"
 
-
 //Menu functions.
 //Used for the overall flow of the application.
 /////////////////////////////////////////////////////////////////
@@ -15,10 +14,15 @@ function app(people){
       searchResults = searchByName(people); searchByEyeColor(people); //I WOULD ADD THE NEW FUNCTION HERE I.E. SEARCHBYEYECOLOR
       break;
     case 'no':
+<<<<<<< HEAD
        promptFor("Do you know the person's eye color? Enter 'yes' or 'no'", yesNo).toLowerCase();
        promptFor("Do you know the person's occupation? Enter 'yes' or 'no'", yesNo).toLowerCase(); // TODO: search by traits
        promptFor("Do you know the name of the person's current spouse? 'yes' or 'no'", yesNo).toLowerCase()
        break;
+=======
+      findPeopleByTraits(people);
+      break;
+>>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
       default:
     app(people); // restart app
       break;
@@ -38,11 +42,11 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
-  let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
+  let displayOption = promptFor("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    displayPerson(person[0]);
     break;
     case "family":
     // TODO: get person's family
@@ -63,6 +67,47 @@ function mainMenu(person, people){
 //#endregion
 
 //Filter functions.
+function findPeopleByTraits(people){
+  let traitSearch = prompt('What trait would you like to filter people by?  You can select "ID Number", "Gender", "Date of Birth", "Height", "Weight", "Eye Color" "Occupation", "Parents", or "Spouse"')
+  switch(traitSearch.toLowerCase()){
+      case "id":
+      case "id number":
+      case "id #":
+          console.log("testing ID input");
+          break;
+      case "gender":
+      case "sex":
+          searchUsersByGender(people);
+          break;
+      case "date of birth":
+      case "dob":
+          console.log("testing DOB");
+          break;
+      case "height":
+          console.log("testing height");
+          break;
+      case "weight":
+      case "lbs":
+          console.log("testing weight");
+          break;
+      case "eye color":
+      case "eyes":
+          console.log("testing eye color");
+          break;
+      case "occupation":
+      case "job":
+      case "profession":
+          console.log("testing occupation");
+          break;
+      case "parents":
+          console.log("testing parents");
+          break;
+      case "spouse":
+      case "married":
+          console.log("testing marriage");
+          break;
+  }
+}
 //Ideally you will have a function for each trait.
 /////////////////////////////////////////////////////////////////
 //#region 
@@ -80,7 +125,6 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person single person object using the name they entered.
   return foundPerson;
 
 }
@@ -119,14 +163,39 @@ let foundOccupation = people.filter(function(potentialMatch){
 function searchByParents(people){                                  //PARENT FINDER
   let parents = promptFor("What is the person's parents first name?") //need to find parents id # based on first and last name
 }
+<<<<<<< HEAD
 
 
 
 function searchByCurrentSpouse(people){                           //SPOUSE FINDER
   let currentSpouse = promptFor("What is the name of the person's current spouse?")
+=======
+function searchUsersByGender(people){
+  let userInput = prompt("What gender do you want to search for today?")
+  if(userInput.toLowerCase() === "male"){
+      let men = [];
+      men = people.filter(function(people){
+          if(people.gender === userInput){
+              return men;
+          }
+      })
+      displayPeople(men)
+  } 
+  else if(userInput.toLowerCase() === "female"){
+    let women = [];
+    women = people.filter(function(people){
+        if(people.gender === userInput){
+            return women;
+        }
+    })
+    displayPeople(women)
+  }
+  else if(userInput === "binary" || userInput === "cis" || userInput === "transgender"){
+    alert("We do not currently have anyone of those genders in our list");
+  } 
+>>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
 }
 //TODO: add other trait filter functions here.
-
 
 
 //#endregion
@@ -144,11 +213,17 @@ function displayPeople(people){
 }
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display.
+  personInfo += "Numerical ID: " + person.id + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Date of Birth: " + person.dob + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
+  personInfo += "Parents: " + person.parents + "\n"
+  personInfo += "Spouse ID: " + person.currentSpouse +"\n"
   alert(personInfo);
 }
 
@@ -166,8 +241,13 @@ function displayPerson(person){
 //isValid: Will capture the return of the validation function callback. true(the user input is valid)/false(the user input was not valid).
 //this function will continue to loop until the user enters something that is not an empty string("") or is considered valid based off the callback function(valid).
 function promptFor(question, valid){
+<<<<<<< HEAD
     let isValid;
     do{
+=======
+  let isValid;
+  do{
+>>>>>>> c4491a23745acd7ddc139b9ef90e1783db4593b8
     var response = prompt(question).trim();
     isValid = valid(response);
   } while(response === ""  ||  isValid === false)

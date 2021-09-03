@@ -18,9 +18,12 @@ This is dCC's week 2 project.  MostWanted
 
 09/02 7. Midnight: Get .io diagram in place to help sort and organize content.  
 
+09/02 8. Merged single traits while on screen with one another to acccurately resolve conflicts.  Gave feedback back and forth and kicked around ideas for continuing.  Wrote the algorithm for the next task together.  
 
 
 # Commit Comments
+09/02 Finished traits so they can narrow a group down to a single individual; Added exit points to most the traits.  Changed some verbage in how traits were returned to work better in running them through again.  Tested on various individuals.  
+09/02 Merged files  
 09/02 Added search by DOB, tested and working.  Tested other traits at this point to ensure nothing was accidentally changed.  
 09/02 Added search by ID, tested && working;  
 09/02 Added weight, tested, working;  

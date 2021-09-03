@@ -21,6 +21,7 @@ This is dCC's week 2 project.  MostWanted
 
 
 # Commit Comments
+09/02 Added search by Eye Color, Parents, Spouse, and Occupation.  User validation functions completed as well.
 09/02 Added search by DOB, tested and working.  Tested other traits at this point to ensure nothing was accidentally changed.  
 09/02 Added search by ID, tested && working;  
 09/02 Added weight, tested, working;  

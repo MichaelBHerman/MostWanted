@@ -16,7 +16,7 @@ function app(people){
       break;
     case 'no':
       findPeopleByTraits(people);
-      break;
+      return;
       default:
     app(people); // restart app
       break;
@@ -36,13 +36,12 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
-  let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
+  let displayOption = promptFor("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
     case "info":
       displayPerson(person[0]);
-    // TODO: get person's info
-    break;
+      break;
     case "family":
     // TODO: get person's family
     break;
@@ -63,44 +62,58 @@ function mainMenu(person, people){
 
 //Filter functions.
 function findPeopleByTraits(people){
+  let traitGroup = [];
   let traitSearch = prompt('What trait would you like to filter people by?  You can select "ID Number", "Gender", "Date of Birth", "Height", "Weight", "Eye Color" "Occupation", "Parents", or "Spouse"')
   switch(traitSearch.toLowerCase()){
       case "id":
       case "id number":
       case "id #":
-          searchUsersByID(people);
+          traitGroup =searchUsersByID(people);
           break;
       case "gender":
       case "sex":
-          searchUsersByGender(people);
-          return;
+          traitGroup = searchUsersByGender(people);
+          break;
       case "date of birth":
       case "dob":
-          searchUsersByDOB(people);
+          traitGroup = searchUsersByDOB(people);
           break;
       case "height":
-          searchUsersByHeight(people);
+          traitGroup = searchUsersByHeight(people);
           break;
       case "weight":
       case "lbs":
-          searchUsersByWeight(people);
+          traitGroup = searchUsersByWeight(people);
           break;
       case "eye color":
       case "eyes":
-          searchByEyeColor(people);
+          traitGroup = searchByEyeColor(people);
           break;
       case "occupation":
       case "job":
       case "profession":
-          searchByOccupation(people);
+          traitGroup = searchByOccupation(people);
           break;
       case "parents":
-          searchByParents(people);
+          traitGroup = searchByParents(people);
           break;
       case "spouse":
       case "married":
           searchByCurrentSpouse(people);
           break;
+  }
+  if(traitGroup.length <= 1){
+    let person = traitGroup;
+    return mainMenu(person, people);
+  }
+  if(traitGroup.length > 1){
+    let userInput = promptFor("Would you like to run your new group through again and look for another trait to narrow your list down?  Please enter \"yes\" or \"no\".", yesNo).toLowerCase();
+      if(userInput === "yes"){
+    findPeopleByTraits(traitGroup);
+    }
+    else{
+      return app(people);
+    }
   }
 }
 //Ideally you will have a function for each trait.
@@ -128,30 +141,43 @@ function searchByName(people){
 function searchByEyeColor(people){
     let userInput = promptForEyeColor("What Eye Color do you want to search for today?")
     if(userInput.toLowerCase() === "brown", "blue", "black", "hazel", "green"){
-        let eyeColor = [];
+      if(userInput.toLocaleLowerCase === "exit"){
+        return;
+      }  
+      let eyeColor = [];
         eyeColor = people.filter(function(people){
             if(people.eyeColor === userInput){
                 return eyeColor;
             }
         })
-        displayPeople(eyeColor);
+        let traitGroup = eyeColor;
+        displayPeople(traitGroup);
+        return(traitGroup);
     } 
   }
 
   function searchByOccupation(people){                  
     let userInput = prompt("What is the person's occupation?");
     if(userInput.toLowerCase() === "assistant", "landscaper", "nurse", "programmer", "student", "architect", "doctor", "politician"){
+      if(userInput.toLowerCase === "exit"){
+        return;
+      }
       let occupation = [];
       occupation = people.filter(function(people){
         if(people.occupation === userInput){
           return occupation;
         }
       })
-      displayPeople(occupation);
+      let traitGroup = occupation;
+      displayPeople(traitGroup);
+      return(traitGroup);
    }
   } 
   function searchUsersByGender(people){
     let userInput = prompt("What gender do you want to search for today?")
+    if(userInput.toLowerCase === "exit"){
+      return;
+    }
     if(userInput.toLowerCase() === "male"){
         let men = [];
         men = people.filter(function(people){
@@ -159,7 +185,9 @@ function searchByEyeColor(people){
                 return men;
             }
         })
-        displayPeople(men)
+        let traitGroup = men;
+        displayPeople(traitGroup);
+        return traitGroup;
     } 
     else if(userInput.toLowerCase() === "female"){
       let women = [];
@@ -168,7 +196,9 @@ function searchByEyeColor(people){
               return women;
           }
       })
-      displayPeople(women)
+      let traitGroup = women;
+      displayPeople(traitGroup);
+      return(traitGroup);
     }
     else if(userInput === "binary" || userInput === "cis" || userInput === "transgender"){
       alert("We do not currently have anyone of those genders in our list");
@@ -184,7 +214,9 @@ function searchByEyeColor(people){
         return hasParents;
       }
     })
-    displayPeople(hasParents)
+    let traitGroup = hasParents;
+    displayPeople(traitGroup);
+    return(traitGroup);
     }
   }
 
@@ -215,43 +247,67 @@ function searchByEyeColor(people){
 
 function searchUsersByHeight(people){
   let userInput = promptForHeight("Do you know the height of the individual in inches?  If so, please enter it.")
+  if(userInput.toLowerCase() === "exit"){
+    return;
+  }
   let peopleByHeight = [];
   peopleByHeight = people.filter(function(people){
       if(people.height == userInput){
           return peopleByHeight;
       }
   })
-  displayPeople(peopleByHeight);
+  let traitGroup = peopleByHeight;
+  displayPeople(traitGroup);
+  return(traitGroup);
 }
 function searchUsersByWeight(people){
   let userInput = promptForWeight("Do you know the weight of the individual in pounds?  If so, please enter it.")
+  if(userInput.toLowerCase === "exit"){
+    return;
+  }
   let peopleByWeight = [];
   peopleByWeight = people.filter(function(people){
       if(people.weight == userInput){
           return peopleByWeight;
       }
   })
-  displayPeople(peopleByWeight)
+  let traitGroup = peopleByWeight;
+  displayPeople(traitGroup)
+  return traitGroup;
 }
 function searchUsersByID(people){
   let userInput = promptForID("If for some reason you can't remember a person's name but you can remember their 9 digit ID number, enter the numerical ID below.")
+  if(userInput.toLowerCase() === "exit"){
+    return;
+  }
   let peopleByID = [];
   peopleByID = people.filter(function(people){
       if(people.id == userInput){
           return peopleByID;
       }
   })
-  displayPeople(peopleByID)
+  let traitGroup = peopleByID;
+  displayPeople(traitGroup);
+  return traitGroup;
 }
 function searchUsersByDOB(people){
-  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
+  let userInput = promptForDOB("If you can remember what your person's birthday is, please enter it in the format of month/day/year.");
+  if(userInput.toLowerCase() === "exit"){
+    return;
+  }
   let peopleByDOB = [];
   peopleByDOB = people.filter(function(people){
       if(people.dob == userInput){
           return peopleByDOB;
       }
+      else{
+        alert("No one had a birthday matching your input, please try again.");
+        searchUsersByDOB(people);
+      }
   })
-  displayPeople(peopleByDOB)
+  let traitGroup = peopleByDOB;
+  displayPeople(traitGroup);
+  return(traitGroup);
 }
 //TODO: add other trait filter functions here.
 
@@ -371,7 +427,7 @@ function promptForGender(question, valid){
   let isValid;
   do{
     var response = prompt(question).trim();
-    valid = "male"||"female"||"cis"||"transgender"||"binary";
+    valid = "male"||"female"||"cis"||"transgender"||"binary"||"exit";
     isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
@@ -380,7 +436,7 @@ function promptForHeight(question, valid){
     let isValid;
     do{
       var response = prompt(question).trim();
-      valid = 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77
+      valid = 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, "exit"
       isValid = valid
     } while(response === ""  ||  isValid === false)
     return response;
@@ -389,7 +445,7 @@ function promptForWeight(question, valid){
   let isValid;
   do{
     var response = prompt(question).trim();
-    valid = response > 99 && response < 257
+    valid = response > 99 && response < 257 || "exit"
     isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
@@ -399,19 +455,19 @@ function promptForID(question, valid){
   do{
       var response = prompt(question).trim();
       let x = response.charAt(0) && response.charAt(1) && response.charAt(2)&& response.charAt(3)&& response.charAt(4)&& response.charAt(5)&& response.charAt(6)&& response.charAt(7)&& response.charAt(8)&& response.charAt(9)
-      valid = x >= 0 && x<=9;
+      valid = x >= 0 && x<=9 ||"exit"
       isValid = valid
   } while(response === ""  ||  isValid === false)
   return response;
 }
-function searchUsersByDOB(people){
-  let userInput = promptForID("If you can remember what your person's birthday is, please enter it in the format of month/day/year.")
-  let peopleByDOB = [];
-  peopleByDOB = people.filter(function(people){
-      if(people.dob == userInput){
-          return peopleByDOB;
-      }
-  })
-  displayPeople(peopleByDOB)
+function promptForDOB(question, valid){
+    let isValid;
+    do{
+        var response = prompt(question).trim();
+        let x = 1 ||2||3||4||5||6||7||8||9
+        valid = "xx/xx/xxxx"||"x/xx/xxxx"||"x/x/xxxx"||"exit"
+        isValid = valid
+    } while(response === ""  ||  isValid === false)
+    return response;
 }
 //#endregion

@@ -24,6 +24,7 @@ This is dCC's week 2 project.  MostWanted
 
 
 # Commit Comments
+09/03 Search by multiple traits partially completed AND working!  
 09/02 User validations fixed and tested;  
 09/02 Added search by Eye Color, Parents, Spouse, and Occupation.  User validation functions completed as well.
 09/02 Finished traits so they can narrow a group down to a single individual; Added exit points to most the traits.  Changed some verbage in how traits were returned to work better in running them through again.  Tested on various individuals.  

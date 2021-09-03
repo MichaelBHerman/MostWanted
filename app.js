@@ -110,6 +110,9 @@ function findPeopleByTraits(people){
           traitGroup = searchByCurrentSpouse(people);
           narrowDownTraitGroup(traitGroup);
           break;
+      case "multiple":
+        searchByMultipleTraits(people);
+        break;
   }
 }
 
@@ -443,3 +446,118 @@ function idNumber(input){
 
 
 //#endregion
+
+//testing
+function searchByMultipleTraits(people){
+  let numberOfTraits;
+  numberOfTraits = determineNumberOfTraits(numberOfTraits);
+  let numberOfValues = numberOfTraits;
+  let userTraits = [];
+  let userValues = [];
+  multipleTraitInput(userTraits, numberOfTraits);
+  multipleValueInput(userValues, numberOfValues);
+  console.log(userTraits);
+  console.log(userValues);
+  compareTraits(userTraits, userValues, people);
+}
+
+
+function determineNumberOfTraits(numberOfTraits){
+  numberOfTraits = prompt("How many traits would you like to use to search today?  Please enter a numeric value between 2 and 5.");
+  return numberOfTraits;
+}
+function determineTrait(userTraits){
+  let userTrait = prompt('What is a you wish to search for? Please enter a trait from the following list:\n"id"\n"first name"\n"last name"\n"gender"\n"dob"\n"weight"\n"eye color"\n"occupation"\n"has parents"\n"has spouse"');
+  userTrait = convertInputToProperTerm(userTrait);
+  userTraits.push(userTrait);
+  return userTraits
+}
+function multipleTraitInput(userTraits, numberOfTraits){
+  if(numberOfTraits === 0){
+    return;
+  }
+  else{
+    determineTrait(userTraits);
+    multipleTraitInput(userTraits, numberOfTraits -1);
+    return;
+  }
+}
+function convertInputToProperTerm(userTrait){
+  switch(userTrait.toLowerCase()){
+    case "id":
+    case "id number":
+    case "id #":
+        userTrait = "id";
+        return userTrait;
+    case "gender":
+    case "sex":
+        userTrait = "gender";
+        return userTrait;
+    case "date of birth":
+    case "dob":
+    case "birthday":
+        userTrait = "dob";
+        return userTrait;
+    case "height":
+        userTrait = "height";
+        return userTrait;
+    case "weight":
+    case "lbs":
+        userTrait = "weight"
+        return userTrait;
+    case "eye color":
+    case "eyes":
+    case "color":
+        userTrait = "eyeColor";
+        return userTrait;
+    case "occupation":
+    case "job":
+    case "profession":
+        userTrait = "occupation";
+        return userTrait;
+    case "parents":
+    case "has parents":
+        userTrait = "parents"
+        return userTrait;
+    case "spouse":
+    case "married":
+        userTrait = "currentSpouse"
+        return userTrait;
+  }
+}
+function determineValue(userValues){
+  let userValue = prompt('What value are you searching for in this trait?  For example, you can put "blue" for "eye color", or "yes" for "has parents".')
+  userValues.push(userValue);
+  return userValues;
+}
+function multipleValueInput(userValues, numberOfValues){
+  if(numberOfValues === 0){
+    return;
+  }
+  else{
+    determineValue(userValues);
+    multipleValueInput(userValues, numberOfValues -1);
+    return;
+  }
+}
+
+// function compareTraits(userTraits, userValues, people){
+//   let valueOne = userValues.shift();
+//   let filteredPeopleOne = []
+//   let valueTwo = userValues.shift();
+//   let filteredPeopleTwo = []
+//   filteredPeopleOne = people.filter(function(traitOne){
+//       traitOne = userTraits.shift();
+//       if(filteredPeopleOne.traitOne === valueOne){
+//           console.log(filteredPeopleOne)
+//           return filteredPeopleOne;
+//       } 
+//   })
+//   filteredPeopleTwo = people.filter(function(traitTwo){
+//       traitTwo = userTraits.shift();
+//       if(filteredPeopleTwo.traitTwo === valueTwo){
+//           console.log(filteredPeopleTwo)
+//           return filteredPeopleTwo;
+//       }
+//   })
+// }

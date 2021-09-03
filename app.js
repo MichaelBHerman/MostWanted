@@ -99,7 +99,7 @@ function findPeopleByTraits(people){
           break;
       case "spouse":
       case "married":
-          console.log("testing marriage");
+          searchByCurrentSpouse(people);
           break;
   }
 }
@@ -126,7 +126,7 @@ function searchByName(people){
 
 
 function searchByEyeColor(people){
-    let userInput = prompt("What Eye Color do you want to search for today?")
+    let userInput = promptForEyeColor("What Eye Color do you want to search for today?")
     if(userInput.toLowerCase() === "brown", "blue", "black", "hazel", "green"){
         let eyeColor = [];
         eyeColor = people.filter(function(people){
@@ -176,17 +176,40 @@ function searchByEyeColor(people){
   }  
 
   function searchByParents(people){
-    let userInput = prompt("Does the user have parents?")
+    let userInput = promptForParents("Does the person have a parent?")
     if(userInput.toLowerCase() === "yes"){
       let hasParents = [];
       hasParents = people.filter(function(people){
-        if(people.parents < 1000000000){
+        if(people.parents.length > 0){
         return hasParents;
       }
     })
     displayPeople(hasParents)
     }
   }
+
+  function searchByCurrentSpouse(people){
+    let userInput = promptForSpouse("Does the person have a current spouse?")
+    if(userInput.toLowerCase() === "yes"){
+      let hasSpouse = [];
+      hasSpouse = people.filter(function(people){
+        if(people.currentSpouse > 0){
+          return hasSpouse;
+        }
+          })
+          displayPeople(hasSpouse);
+
+      //   if(userInput.towLowerCase() ==="no"){  this is currently commented out because it breaks the whole file
+      //  let doesNotHaveSpouse = [];
+      //  doesNotHaveSpouse = people.filter(function(people){
+      //    if(people.currentSpouse < 0){
+      //      return doesNotHaveSpouse;
+      //    }
+      //    })
+      //   displayPeople(doesNotHaveSpouse);
+      }
+    }
+
     //TODO: add other trait filter functions here.
 
 
@@ -306,6 +329,43 @@ function autoValid(input){
 function customValidation(input){
   
 }
+function promptForOccupation(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = 'nurse'||'doctor'||'assistant'||'landscaper'||'programmer'||'politician'||'architect'||'student';
+    isValid = valid
+  } while(response === "" || isValid === false)
+  return response;
+}
+
+function promptForEyeColor(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = 'blue'||'green'||'hazel'||'black'||'brown';
+    isValid = valid
+  } while(response === "" || isValid === false)
+  return response;
+}
+
+function promptForSpouse(question, valid){
+  let isValid;
+  do{
+    var response = prompt(question).trim();
+    valid = 'yes'||'no';
+    }while(response === "" || isValid === false)
+  return response;
+  }
+
+  function promptForParents(question, valid){
+    let isValid;
+    do{
+      var response = prompt(question).trim();
+      valid = 'yes'||'no';
+      }while(response === "" || isValid === false)   
+    return response;
+  }
 
 function promptForGender(question, valid){
   let isValid;

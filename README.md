@@ -20,10 +20,11 @@ This is dCC's week 2 project.  MostWanted
 
 09/02 8. Merged single traits while on screen with one another to acccurately resolve conflicts.  Gave feedback back and forth and kicked around ideas for continuing.  Wrote the algorithm for the next task together.  
 
-09/03 9. Michael wrote next algorithm.  Working on that.  Midnight working on multiple trait search.  On call together and talking back and forth about each element.  
+09/03 9. Michael wrote next algorithm.  Divide and conquer but together! Working on that.  Midnight working on multiple trait search.  On call together and talking back and forth about each element. 
 
 
 # Commit Comments
+09/03 Finished searching by multiple traits at once.  Need to reorganize where things are as I was working on the bottom, but want to commit first in case I break it!  
 09/03 Search by multiple traits partially completed AND working!  
 09/02 User validations fixed and tested;  
 09/02 Added search by Eye Color, Parents, Spouse, and Occupation.  User validation functions completed as well.

@@ -74,6 +74,7 @@ function findPeopleByTraits(people){
       case "gender":
       case "sex":
           traitGroup = searchUsersByGender(people);
+          displayPeople(traitGroup);
           narrowDownTraitGroup(traitGroup);
           break;
       case "date of birth":
@@ -204,7 +205,6 @@ function searchUsersByGender(people){
           }
       })
       let traitGroup = men;
-      displayPeople(traitGroup);
       return traitGroup;
   } 
   else if(userInput.toLowerCase() === "female"){
@@ -318,6 +318,36 @@ function searchUsersByDOB(people){
   let traitGroup = peopleByDOB;
   displayPeople(traitGroup);
   return(traitGroup);
+}
+function searchUsersByFirstName(people){
+  let userInput = promptFor("If you only remember the first name of the person, please type it in below.", autoValid)
+  if(userInput.toLowerCase() === "exit"){
+    return;
+  }
+  let peopleByFirstName = [];
+  peopleByFirstName = people.filter(function(people){
+      if(people.firstName == userInput){
+          return peopleByFirstName;
+      }
+  })
+  let traitGroup = peopleByFirstName;
+  displayPeople(traitGroup);
+  return traitGroup;
+}
+function searchUsersByLastName(people){
+  let userInput = promptFor("If you only remember the last name of the person, please type it in below.", autoValid)
+  if(userInput.toLowerCase() === "exit"){
+    return;
+  }
+  let peopleByLastName = [];
+  peopleByLastName = people.filter(function(people){
+      if(people.lastName == userInput){
+          return peopleByLastName;
+      }
+  })
+  let traitGroup = peopleByLastName;
+  displayPeople(traitGroup);
+  return traitGroup;
 }
 //TODO: add other trait filter functions here.
 
@@ -450,17 +480,15 @@ function idNumber(input){
 //testing
 function searchByMultipleTraits(people){
   let numberOfTraits;
-  numberOfTraits = determineNumberOfTraits(numberOfTraits);
-  let numberOfValues = numberOfTraits;
   let userTraits = [];
-  let userValues = [];
+  let filteredPeople = [];
+  numberOfTraits = determineNumberOfTraits(numberOfTraits);
   multipleTraitInput(userTraits, numberOfTraits);
-  multipleValueInput(userValues, numberOfValues);
-  console.log(userTraits);
-  console.log(userValues);
-  compareTraits(userTraits, userValues, people);
+  filteredPeople = compareTraits(userTraits, people,)
+  if(userTraits.length>0){
+    compareTraits(userTraits,filteredPeople)};
+  narrowDownTraitGroup(filteredPeople);
 }
-
 
 function determineNumberOfTraits(numberOfTraits){
   numberOfTraits = prompt("How many traits would you like to use to search today?  Please enter a numeric value between 2 and 5.");
@@ -489,6 +517,16 @@ function convertInputToProperTerm(userTrait){
     case "id #":
         userTrait = "id";
         return userTrait;
+    case "first name":
+    case "first":
+    case "name":
+      userTrait = "firstName";
+      return userTrait;
+    case "last name":
+    case "surname":
+    case "family name":
+      userTrait = "lastName"
+      return userTrait;
     case "gender":
     case "sex":
         userTrait = "gender";
@@ -525,39 +563,41 @@ function convertInputToProperTerm(userTrait){
         return userTrait;
   }
 }
-function determineValue(userValues){
-  let userValue = prompt('What value are you searching for in this trait?  For example, you can put "blue" for "eye color", or "yes" for "has parents".')
-  userValues.push(userValue);
-  return userValues;
-}
-function multipleValueInput(userValues, numberOfValues){
-  if(numberOfValues === 0){
-    return;
+function compareTraits(userTraits, people){
+  let traitOne = userTraits.shift();
+  let filteredPeople = [];
+  if(traitOne === "id"){
+    filteredPeople = searchUsersByID(people);
   }
-  else{
-    determineValue(userValues);
-    multipleValueInput(userValues, numberOfValues -1);
-    return;
+  if(traitOne === "firstName"){
+    filteredPeople = searchUsersByFirstName(people);
   }
+  if(traitOne === "lastName"){
+    filteredPeople = searchUsersByLastName(people);
+  }
+  if(traitOne === "gender"){
+    filteredPeople = searchUsersByGender(people);
+  }
+  if(traitOne === "dob"){
+    filteredPeople = searchUsersByDOB(people);
+  }
+  if(traitOne === "height"){
+    filteredPeople = searchUsersByHeight(people);
+  }
+  if(traitOne === "weight"){
+    filteredPeople = searchUsersByWeight(people);
+  }
+  if(traitOne === "eyeColor"){
+    filteredPeople = searchByEyeColor(people);
+  }
+  if(traitOne === "occupation"){
+    filteredPeople = searchByOccupation(people);
+  }
+  if(traitOne === "parents"){
+    filteredPeople = searchByParents(people);
+  }
+  if(traitOne === "currentSpouse"){
+    filteredPeople = searchByCurrentSpouse(people);
+  }
+  return filteredPeople;
 }
-
-// function compareTraits(userTraits, userValues, people){
-//   let valueOne = userValues.shift();
-//   let filteredPeopleOne = []
-//   let valueTwo = userValues.shift();
-//   let filteredPeopleTwo = []
-//   filteredPeopleOne = people.filter(function(traitOne){
-//       traitOne = userTraits.shift();
-//       if(filteredPeopleOne.traitOne === valueOne){
-//           console.log(filteredPeopleOne)
-//           return filteredPeopleOne;
-//       } 
-//   })
-//   filteredPeopleTwo = people.filter(function(traitTwo){
-//       traitTwo = userTraits.shift();
-//       if(filteredPeopleTwo.traitTwo === valueTwo){
-//           console.log(filteredPeopleTwo)
-//           return filteredPeopleTwo;
-//       }
-//   })
-// }

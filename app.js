@@ -53,6 +53,7 @@ function mainMenu(person, people){
 }
 //#endregion
 
+
 //Filter functions
 /////////////////////////////////////////////////////////////////
 //#region 
@@ -81,7 +82,6 @@ function findPeopleByTraits(people){
       case "gender":
       case "sex":
         traitGroup = searchUsersByGender(people);
-        displayPeople(traitGroup);
         narrowDownTraitGroup(traitGroup);
         break;
       case "date of birth":
@@ -124,6 +124,7 @@ function findPeopleByTraits(people){
   }
 }
 //#endregion
+
 
 //Multiple Trait Functions
 /////////////////////////////////////////////////////////////////
@@ -250,8 +251,6 @@ function compareTraits(userTraits, people){
   }
   return filteredPeople;
 }
-
-//#endregion
 function narrowDownTraitGroup(traitGroup){
   if(traitGroup.length <= 1){
     let person = traitGroup;
@@ -271,6 +270,7 @@ function narrowDownTraitGroup(traitGroup){
 }
 
 }
+//#endregion
 
 
 //Trait Functions
@@ -307,7 +307,7 @@ function searchUsersByID(people){
   return traitGroup;
 }
 function searchUsersByFirstName(people){
-  let userInput = promptFor("If you only remember the first name of the person, please type it in below.", autoValid)
+  let userInput = promptFor("If you only remember the first name of the person, please type it in below.  Remember, names start with a capital letter!", autoValid)
   if(userInput.toLowerCase() === "exit"){
     return;
   }
@@ -322,7 +322,7 @@ function searchUsersByFirstName(people){
   return traitGroup;
 }
 function searchUsersByLastName(people){
-  let userInput = promptFor("If you only remember the last name of the person, please type it in below.", autoValid)
+  let userInput = promptFor("If you only remember the last name of the person, please type it in below.  Remember that names start with a capital letter!", autoValid)
   if(userInput.toLowerCase() === "exit"){
     return;
   }
@@ -482,7 +482,147 @@ if(userInput.toLowerCase() === "yes"){
 
 //#endregion
 
-//Display functions.
+
+//Family Functions
+/////////////////////////////////////////////////////////////////
+//#region 
+function findPersonsFamily(person, people){
+  // kids;
+  // grandkids;
+  let spouse = findPersonsSpouse(person, people);
+  person.spouseName = spouse;
+  let parentNames = findPersonsParents(person, people);
+  person.parentNames = parentNames;
+  let siblingID = findPersonSiblingsID(person, people);
+  if(siblingID === "Unknown"){
+    let numberOfSiblings = 0;
+    person.numberOfSiblings = numberOfSiblings;
+  }
+  else{
+    let numberOfSiblings = siblingID.length;
+    person.numberOfSiblings = numberOfSiblings;
+  }
+  let siblingNames = findSiblingsNames(siblingID, people);
+  person.siblingNames = siblingNames;
+  
+  
+
+  displayFamily(person)
+}
+function findPersonsSpouse(person, people){
+  let spouse;
+  let spouseID = person.currentSpouse; 
+  spouseID = people.filter(function(people){ 
+      if(people.id == spouseID){
+        let person = people;
+        spouse = person.firstName + " " + person.lastName;
+        return spouse;
+      }
+  })
+  if(spouse === undefined){
+    spouse = "Unknown";
+    return spouse;
+}
+  return spouse;
+}
+function findPersonsParents(person, people){
+  let parentNames;
+  let parentOne;
+  let parentTwo;
+  let parentID = person.parents;
+  if(parentID.length ==0){
+    parentNames = "Unknown";
+    return parentNames;
+  }
+  let parentOneID = parentID[0];
+  let parentTwoID = parentID[1];
+  parentOneID = people.filter(function(people){ 
+    if(people.id == parentOneID){
+      let person = people;
+      parentOne = person.firstName + " " + person.lastName;
+      return parentOne;
+    }
+    return parentOne;
+  })
+  if(parentTwoID != undefined){
+    parentTwoID = people.filter(function(people){ 
+      if(people.id == parentTwoID){
+        let person = people;
+        parentTwo = person.firstName + " " + person.lastName;
+        return parentTwo;
+      }    
+    })
+  }
+  parentNames = parentOne + "   " + parentTwo;
+  return parentNames;
+}
+function findPersonSiblingsID(person, people){
+  let siblingID = [];
+  let siblings;
+  let parentID = person.parents;
+  if(parentID.length == 0){
+    siblingID = 0;
+    siblings = "Unknown";
+    return siblingID, siblings;
+  }
+  let parentOneID = parentID[0];
+  let parentTwoID = parentID[1];
+  person.parents = 111111;
+  siblingID = people.filter(function(people){
+      if(people.parents[0]==parentOneID || people.parents[1] == parentOneID){
+        returnParentIDtoFormer(person, parentOneID, parentTwoID)
+        return siblingID;
+      }
+  })
+  if(parentTwoID == undefined){
+    returnParentIDtoFormer(person, parentOneID, parentTwoID)
+    return siblingID;
+  }
+  else{
+    siblingID = people.filter(function(people){ 
+      if(people.parents[0]==parentTwoID||people.parents[1] == parentTwoID){
+        returnParentIDtoFormer(person, parentOneID, parentTwoID)
+        return siblingID;
+      }
+    })
+  }
+  returnParentIDtoFormer(person, parentOneID, parentTwoID)
+  return siblingID;
+}
+function returnParentIDtoFormer(person, parentOneID, parentTwoID){
+  if(parentTwoID === undefined){
+    person.parents = parentOneID;
+  }
+  else{
+    person.parents = parentOneId + ", " + parentTwoID;
+  }
+}
+function findSiblingsNames(siblingID, people){
+  let siblingNames = "";
+  if(siblingID.length == 0){
+    siblingNames = "Unknown";
+    return siblingNames;
+  }
+  for(let i = 0; i<siblingID.length; i++){
+    let oneSibling = siblingID[i];
+    let oneSiblingID = oneSibling.id;
+    oneSiblingID = people.filter(function(people){
+      if(people.id == oneSiblingID){
+      let person = people;
+      let siblingName = person.firstName + " " + person.lastName + ",";
+      siblingNames += "  " + siblingName;
+      return siblingNames;
+      }
+    })
+  }
+  return siblingNames;
+}
+
+//#endregion
+
+
+//Display functions
+/////////////////////////////////////////////////////////////////
 //#region 
 
 function displayPeople(people){
@@ -505,9 +645,20 @@ function displayPerson(person){
   personInfo += "Spouse ID: " + person.currentSpouse +"\n"
   alert(personInfo);
 }
+function displayFamily(person){
+  let personInfo = "The full name of the person you're viewing: " + person.firstName + " " + person.lastName + "\n";
+  personInfo += "Parents: " + person.parentNames +"\n";
+  personInfo += "Spouse: " + person.spouseName + "\n";
+  personInfo += `Siblings: ${person.numberOfSiblings} siblings;  Names: ${person.siblingNames}\n`;
+  personInfo += "Children: " + + "\n";
+  personInfo += "Grandchildren: " + + "\n"
+  alert(personInfo);
+}
 //#endregion
 
-//Validation functions.
+
+//Validation functions
+/////////////////////////////////////////////////////////////////
 //#region 
 function promptFor(question, valid){
   let isValid;
@@ -586,104 +737,11 @@ function numberOfTraitsValid(input){
 }
 //#endregion
 
+
 //testing
+/////////////////////////////////////////////////////////////////
 //#region
 
-function findPersonsSpouse(person, people){
-  let spouse;
-  let spouseID = person.currentSpouse; 
-  spouseID = people.filter(function(people){ 
-      if(people.id == spouseID){
-        let person = people;
-        spouse = person.firstName + " " + person.lastName;
-        return spouse;
-      }
-  })
-  if(spouse === undefined){
-    spouse = "Unknown";
-    return spouse;
-}
-  return spouse;
-}
-function findPersonsParents(person, people){
-  let parentNames;
-  let parentOne;
-  let parentTwo;
-  let parentID = person.parents;
-  if(parentID === undefined){
-    parentNames = "Unknown";
-    return parentNames;
-  }
-  let parentOneID = parentID[0];
-  let parentTwoID = parentID[1];
-  parentOneID = people.filter(function(people){ 
-    if(people.id == parentOneID){
-      let person = people;
-      parentOne = person.firstName + " " + person.lastName;
-      return parentOne;
-    }
-    return parentOne;
-  })
-  if(parentTwoID != undefined){
-    parentTwoID = people.filter(function(people){ 
-      if(people.id == parentTwoID){
-        let person = people;
-        parentTwo = person.firstName + " " + person.lastName;
-        return parentTwo;
-      }    
-    })
-  }
-  parentNames = parentOne + "   " + parentTwo;
-  return parentNames;
-}
-function findPersonSiblingsID(person, people){
-  let siblingID;
-  let siblings;
-  let parentID = person.parents;
-  let parentOneID = parentID[0];
-  let parentTwoID = parentID[1];
-  person.parents = 111111;
-  siblingID = people.filter(function(people){
-      if(people.parents[0]==parentOneID||people.parents[1] == parentOneID){
-        return siblingID;
-      }
-  })
-  siblingID = people.filter(function(people){ 
-    if(people.parents[0]==parentTwoID||people.parents[1] == parentTwoID){
-      return siblingID;
-    }
-  })
-  if(people.parents = undefined){
-  siblings = "Unknown";
-  return siblings;;
-  }
-  return siblingID;
-}
-function findPersonsFamily(person, people){
-  // siblings;
-  // kids;
-  // grandkids;
-  let spouse = findPersonsSpouse(person, people);
-  person.spouseName = spouse;
-  let parentNames = findPersonsParents(person, people);
-  person.parentNames = parentNames;
-  let siblingID = findPersonSiblingsID(person, people);
-  let numberOfSiblings = siblingID.length;
-  person.numberOfSiblings = numberOfSiblings;
-  
-  
 
-  displayFamily(person)
-}
-
-function displayFamily(person){
-  let personInfo = "The full name of the person you're viewing: " + person.firstName + " " + person.lastName + "\n";
-  personInfo += "Parents: " + person.parentNames +"\n";
-  personInfo += "Spouse: " + person.spouseName + "\n";
-  personInfo += "Siblings: " + person.numberOfSiblings+"   (   )" + "\n";
-  personInfo += "Children: " + + "\n";
-  
-  alert(personInfo);
-}
 
 //#end region

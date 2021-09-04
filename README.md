@@ -6,6 +6,7 @@ I (Midnight) didn't like the format to how we divided things up and what we both
 
 
 # Commit Comments
+09/04 Did a little more quality of life readability edits.  Finished siblings, parents, and spouse.  Only waiting on children/grandchildren.  Tested against a variety of different people in the database and done without refreshing in between to try to ensure no data was changed through any function.  Hopefully I didn't miss anything.   
 09/03 Edited for readability and organized traits into the same order throughout.  Removed most comments.  Finsihed with finding spouse and parents.  Half finished with siblings.  
 09/03 Finished searching by multiple traits at once.  Need to reorganize where things are as I was working on the bottom, but want to commit first in case I break it!  
 09/03 Search by multiple traits partially completed AND working!  

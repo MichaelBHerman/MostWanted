@@ -2,28 +2,11 @@
 This is dCC's week 2 project.  MostWanted
 
 # How We've Divided Tasks
-09/01 1. Gone over User Stories and the code we've been provided with together  
-
-09/01 2. Ran through debugger together, sharing screens, asking questions  
-
-09/01 3. Midnight: Wrote part of Display Info  
-
-09/01 4. Figured out how to make Billy Bob display together (with the help of David)  
-
-09/01 5. Divide and conquer tasks   
-    - Midnight: finish the display info; individual traits: gender, dob, height, weight  
-    - Michael: eye color, occupation, has parent, has spouse  
-      
-09/01 6. Commit Traits  
-
-09/02 7. Midnight: Get .io diagram in place to help sort and organize content.  
-
-09/02 8. Merged single traits while on screen with one another to acccurately resolve conflicts.  Gave feedback back and forth and kicked around ideas for continuing.  Wrote the algorithm for the next task together.  
-
-09/03 9. Michael wrote next algorithm.  Divide and conquer but together! Working on that.  Midnight working on multiple trait search.  On call together and talking back and forth about each element. 
+I (Midnight) didn't like the format to how we divided things up and what we both worked on before.  So I'll do it by summary.  We were frequently on Slack call or messaging via Slack through the entire process.  We spent a lot of time going over the existing code together and figuring out how it worked.  For most major merges, we screen shared to try to make sure the merges were accurate.  We divided and conquered the traits.  Small edits throughout.  We wrote most of the algorithms together.  We both did validation for different traits.  
 
 
 # Commit Comments
+09/03 Edited for readability and organized traits into the same order throughout.  Removed most comments.  Finsihed with finding spouse and parents.  Half finished with siblings.  
 09/03 Finished searching by multiple traits at once.  Need to reorganize where things are as I was working on the bottom, but want to commit first in case I break it!  
 09/03 Search by multiple traits partially completed AND working!  
 09/02 User validations fixed and tested;  

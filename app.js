@@ -571,6 +571,7 @@ function findPersonSiblingsID(person, people){
   let siblingID = [];
   let siblings;
   let parentID = person.parents;
+  let personID = person.id;
   if(parentID.length == 0){
     siblingID = 0;
     siblings = "Unknown";
@@ -579,19 +580,16 @@ function findPersonSiblingsID(person, people){
   let parentOneID = parentID[0];
   let parentTwoID = parentID[1];
   siblingID = people.filter(function(people){
-      if(people.parents[0]==parentOneID || people.parents[1] == parentOneID){
-        returnParentIDtoFormer(person, parentOneID, parentTwoID)
+      if(people.id != personID&&people.parents[0]==parentOneID || people.parents[1] == parentOneID){
         return siblingID;
       }
   })
   if(parentTwoID == undefined){
-    returnParentIDtoFormer(person, parentOneID, parentTwoID)
     return siblingID;
   }
   else{
     siblingID = people.filter(function(people){ 
-      if(people.parents[0]==parentTwoID||people.parents[1] == parentTwoID){
-        returnParentIDtoFormer(person, parentOneID, parentTwoID)
+      if(people.id !== personID && people.parents[0]==parentTwoID||people.parents[1] == parentTwoID){
         return siblingID;
       }
     })
@@ -673,10 +671,10 @@ function displayPerson(person){
 function displayFamily(person){
   let personInfo = "The full name of the person you're viewing: " + person.firstName + " " + person.lastName + "\n";
   personInfo += "Parents: " + person.parentNames +"\n";
-  personInfo += "Spouse: " + person.spouseName + "\n";
+  personInfo += "Current Spouse: " + person.spouseName + "\n";
   personInfo += `Siblings: ${person.numberOfSiblings} siblings\n`;
-  if (person.siblingsNames == ""){
-    personInfo +=`   Names: ${person.siblingNames}\n`;
+  if (person.siblingNames != undefined){
+    personInfo +=`Sibling Names: ${person.siblingNames}\n`;
   } 
   personInfo += "Children: " + person.childrenNames + "\n";
   alert(personInfo);

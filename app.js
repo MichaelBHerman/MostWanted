@@ -135,17 +135,28 @@ function searchByMultipleTraits(people){
   let filteredPeople = [];
   numberOfTraits = determineNumberOfTraits(numberOfTraits);
   multipleTraitInput(userTraits, numberOfTraits);
-  filteredPeople = compareTraits(userTraits, people,)
-  if(userTraits.length>0){
-    compareTraits(userTraits,filteredPeople)};
-  narrowDownTraitGroup(filteredPeople);
+  while(userTraits.length>0){
+    filteredPeople = compareTraits(userTraits, people);
+      if(filteredPeople.length === 1){
+        alert("Your search has yielded only one individual.");
+        let person = filteredPeople;
+        mainMenu(person, people);
+        return;
+      }
+      else if (filteredPeople.length == 0){
+        alert("There are no people on our current list that match those traits.  Please try again")
+          app(people);
+          return;
+      }
+  }
+  if(filteredPeople.length > 0)narrowDownTraitGroup(filteredPeople);
 }
 function determineNumberOfTraits(numberOfTraits){
   numberOfTraits = promptFor("How many traits would you like to use to search today?  Please enter a numeric value between 2 and 5.", numberOfTraitsValid);
   return numberOfTraits;
 }
 function determineTrait(userTraits){
-  let userTrait = prompt('What is a you wish to search for? Please enter a trait from the following list:\n"id"\n"first name"\n"last name"\n"gender"\n"dob"\n"weight"\n"eye color"\n"occupation"\n"has parents"\n"has spouse"');
+  let userTrait = promptFor('What is a you wish to search for? Please enter a trait from the following list:\n"id"\n"first name"\n"last name"\n"gender"\n"dob"\n"weight"\n"eye color"\n"occupation"\n"has parents"\n"has spouse"', multipleTraitsValid);
   userTrait = convertInputToProperTerm(userTrait);
   userTraits.push(userTrait);
   return userTraits
@@ -252,7 +263,7 @@ function compareTraits(userTraits, people){
   return filteredPeople;
 }
 function narrowDownTraitGroup(traitGroup){
-  if(traitGroup.length <= 1){
+  if(traitGroup.length === 1){
     let person = traitGroup;
     return mainMenu(person);
   }
@@ -409,23 +420,21 @@ function searchUsersByWeight(people){
   return traitGroup;
 }
 function searchByEyeColor(people){
-  let userInput = promptFor("What Eye Color do you want to search for today?", eyeColor)
-  if(userInput.toLowerCase() === "brown", "blue", "black", "hazel", "green"){
-    if(userInput.toLocaleLowerCase === "exit"){
-      return;
-    }  
+  let userInput = promptFor("What Eye Color do you want to search for today?", eyeColorValid)
+  if(userInput.toLocaleLowerCase === "exit"){
+    return;
+  }
     let eyeColor = [];
-      eyeColor = people.filter(function(people){
-          if(people.eyeColor === userInput){
-              return eyeColor;
-          }
-      })
-      let traitGroup = eyeColor;
-      displayPeople(traitGroup);
-      return(traitGroup);
-  } 
+    eyeColor = people.filter(function(people){
+        if(people.eyeColor === userInput){
+            return eyeColor;
+        }
+    })
+  let traitGroup = eyeColor;
+  displayPeople(traitGroup);
+  return(traitGroup);
 }
-function searchByOccupation(people){                  
+function searchByOccupation(people){
   let userInput = promptFor("What is the person's occupation?", occupation);
   if(userInput.toLowerCase() === "assistant", "landscaper", "nurse", "programmer", "student", "architect", "doctor", "politician"){
     if(userInput.toLowerCase === "exit"){
@@ -487,24 +496,23 @@ if(userInput.toLowerCase() === "yes"){
 /////////////////////////////////////////////////////////////////
 //#region 
 function findPersonsFamily(person, people){
-  // kids;
-  // grandkids;
   let spouse = findPersonsSpouse(person, people);
   person.spouseName = spouse;
   let parentNames = findPersonsParents(person, people);
   person.parentNames = parentNames;
   let siblingID = findPersonSiblingsID(person, people);
-  if(siblingID === "Unknown"){
-    let numberOfSiblings = 0;
-    person.numberOfSiblings = numberOfSiblings;
-  }
-  else{
-    let numberOfSiblings = siblingID.length;
-    person.numberOfSiblings = numberOfSiblings;
+    if(siblingID === "Unknown"){
+      let numberOfSiblings = 0;
+      person.numberOfSiblings = numberOfSiblings;
+    }
+    else{
+      let numberOfSiblings = siblingID.length;
+      person.numberOfSiblings = numberOfSiblings;
   }
   let siblingNames = findSiblingsNames(siblingID, people);
   person.siblingNames = siblingNames;
-  
+  let childrenNames = findPersonChildren(person, people);
+  person.childrenNames = childrenNames;
   
 
   displayFamily(person)
@@ -553,7 +561,10 @@ function findPersonsParents(person, people){
       }    
     })
   }
-  parentNames = parentOne + "   " + parentTwo;
+  if(parentTwoID == undefined){
+    parentTwo = "Unknown";
+  }
+  parentNames = parentOne + " and " + parentTwo;
   return parentNames;
 }
 function findPersonSiblingsID(person, people){
@@ -567,7 +578,6 @@ function findPersonSiblingsID(person, people){
   }
   let parentOneID = parentID[0];
   let parentTwoID = parentID[1];
-  person.parents = 111111;
   siblingID = people.filter(function(people){
       if(people.parents[0]==parentOneID || people.parents[1] == parentOneID){
         returnParentIDtoFormer(person, parentOneID, parentTwoID)
@@ -594,7 +604,7 @@ function returnParentIDtoFormer(person, parentOneID, parentTwoID){
     person.parents = parentOneID;
   }
   else{
-    person.parents = parentOneId + ", " + parentTwoID;
+    person.parents = parentOneID + ", " + parentTwoID;
   }
 }
 function findSiblingsNames(siblingID, people){
@@ -617,6 +627,22 @@ function findSiblingsNames(siblingID, people){
   }
   return siblingNames;
 }
+function findPersonChildren(person, people){
+  let childrenNames =""
+  let parentID = person.id
+  let children = [];
+  children = people.filter(function(people){
+    if(parentID == people.parents[0]||parentID == people.parents[1]){
+        let children = people;
+        childrenNames += children.firstName + " " + children.lastName + ", ";
+        return childrenNames;
+    }
+  })
+  if(childrenNames == ""){
+    childrenNames = "Unknown";
+  }
+  return childrenNames;
+}
 
 //#endregion
 
@@ -630,7 +656,6 @@ function displayPeople(people){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
-
 function displayPerson(person){
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
@@ -649,9 +674,11 @@ function displayFamily(person){
   let personInfo = "The full name of the person you're viewing: " + person.firstName + " " + person.lastName + "\n";
   personInfo += "Parents: " + person.parentNames +"\n";
   personInfo += "Spouse: " + person.spouseName + "\n";
-  personInfo += `Siblings: ${person.numberOfSiblings} siblings;  Names: ${person.siblingNames}\n`;
-  personInfo += "Children: " + + "\n";
-  personInfo += "Grandchildren: " + + "\n"
+  personInfo += `Siblings: ${person.numberOfSiblings} siblings\n`;
+  if (person.siblingsNames == ""){
+    personInfo +=`   Names: ${person.siblingNames}\n`;
+  } 
+  personInfo += "Children: " + person.childrenNames + "\n";
   alert(personInfo);
 }
 //#endregion
@@ -695,7 +722,7 @@ function occupation(input){
     return false;
   }
 }
-function eyeColor(input){
+function eyeColorValid(input){
   if(input.toLowerCase() == "blue"||input.toLowerCase() == "green"||input.toLowerCase() == "hazel"||input.toLowerCase() == "black"||input.toLowerCase() == "brown"||input.toLowerCase() == "exit"){
     return true;
   }
@@ -735,13 +762,21 @@ function numberOfTraitsValid(input){
     return false;
   }
 }
+function multipleTraitsValid(input){
+  if(input.toLowerCase() == "exit"||input.toLowerCase() == "id"||input.toLowerCase() == "id number"||input.toLowerCase() == "id #"||input.toLowerCase() == "name"||input.toLowerCase() == "first name"||input.toLowerCase() == "first"||input.toLowerCase() == "last name"||input.toLowerCase() == "family name"||input.toLowerCase() == "surname"||input.toLowerCase() == "gender"||input.toLowerCase() == "sex"||input.toLowerCase() == "date of birth"||input.toLowerCase() == "dob"||input.toLowerCase() == "height"||input.toLowerCase() == "weight"||input.toLowerCase() == "lbs"||input.toLowerCase() == "eye color"||input.toLowerCase() == "eyes"||input.toLowerCase() == "occupation"||input.toLowerCase() == "job"||input.toLowerCase() == "profession"||input.toLowerCase() == "parents"||input.toLowerCase() == "has parents"||input.toLowerCase() == "has spouse"||input.toLowerCase() == "spouse"||input.toLowerCase() == "married"){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 //#endregion
 
 
 //testing
 /////////////////////////////////////////////////////////////////
 //#region
-
 
 
 //#end region

@@ -4,8 +4,11 @@ This is dCC's week 2 project.  MostWanted
 # How We've Divided Tasks
 I (Midnight) didn't like the format to how we divided things up and what we both worked on before.  So I'll do it by summary.  We were frequently on Slack call or messaging via Slack through the entire process.  We spent a lot of time going over the existing code together and figuring out how it worked.  For most major merges, we screen shared to try to make sure the merges were accurate.  We divided and conquered the traits.  Small edits throughout.  We wrote most of the algorithms together.  We both did validation for different traits.  
 
+There were a few other things that I (Midnight) wanted to add or do differently.  I wanted to add searching birthday by month as well.  There was another thing I wanted to fix in the menu but every time I encountered it, I made a mental note and promptly forgot when I got to whatever I was doing.  I also wanted to ensure that the ability to exit was available at each prompt, but I think I may have missed some and I should have taken the time to ensure they were all there, but I'm just out of time.  
+
 
 # Commit Comments
+09/06 Finished spouse yes/no and parent yes/no.  Finished descendants.  Lots more testing and debugging, especially testing to ensure that the new additions didn't mess anything else up.  Added fake people to the database to test that descendants works further into generations than what was provided.    
 09/04 Did a little more quality of life readability edits.  Finished siblings, parents, and spouse.  Only waiting on children/grandchildren.  Tested against a variety of different people in the database and done without refreshing in between to try to ensure no data was changed through any function.  Hopefully I didn't miss anything.   
 09/03 Edited for readability and organized traits into the same order throughout.  Removed most comments.  Finsihed with finding spouse and parents.  Half finished with siblings.  
 09/03 Finished searching by multiple traits at once.  Need to reorganize where things are as I was working on the bottom, but want to commit first in case I break it!  

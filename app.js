@@ -40,7 +40,7 @@ function mainMenu(person, people){
       findPersonsFamily(person[0], people);
     break;
     case "descendants":
-    // TODO: get person's descendants
+      findChildrenAndDescendants(person[0], people);
     break;
     case "restart":
     app(people);
@@ -262,21 +262,24 @@ function compareTraits(userTraits, people){
   }
   return filteredPeople;
 }
-function narrowDownTraitGroup(traitGroup){
+function narrowDownTraitGroup(traitGroup, people){
   if(traitGroup.length === 1){
     let person = traitGroup;
     return mainMenu(person);
   }
   if(traitGroup.length > 1){
-    let userInput = promptFor("Would you like to run your new group through again and look for another trait to narrow your list down?  Please enter \"yes\" or \"no\".", yesNo).toLowerCase();
-      if(userInput === "yes"){
-    findPeopleByTraits(traitGroup);
-    }
+    let userInput = promptFor("Would you like to run your new group through again and look for another trait to narrow your list down?  Please enter \"yes\" or \"no\" or \"exit\".  (Note, entering no will restart your search.)", yesNo).toLowerCase();
+      if(userInput.toLowerCase() === "yes"){
+        findPeopleByTraits(traitGroup);
+      }
+      if(userInput.toLowerCase() === "no"){
+        return app(people);
+      }
+      if(userInput.toLowerCase() === "exit"){
+        return;
+      }
   if(traitGroup.length === 0){
     alert("We had no one in our database that matches all the parameters you were searching for.")
-  }
-  else{
-    return app(people);
   }
 }
 
@@ -464,28 +467,41 @@ function searchByParents(people){
   displayPeople(traitGroup);
   return(traitGroup);
   }
+    if(userInput.toLowerCase() === "no"){
+      let hasParents = [];
+      hasParents = people.filter(function(people){
+        if(people.parents.length == 0){
+        return hasParents;
+        }
+      })
+  let traitGroup = hasParents;
+  displayPeople(traitGroup);
+  return(traitGroup);
+  }
 }
 function searchByCurrentSpouse(people){
 let userInput = promptFor("Does the person have a current spouse?", yesNo)
-if(userInput.toLowerCase() === "yes"){
-  let hasSpouse = [];
-  hasSpouse = people.filter(function(people){
-    if(people.currentSpouse > 0){
-      return hasSpouse;
-    }
-      })
-      let traitGroup = hasSpouse;
-      displayPeople(traitGroup);
-      return(traitGroup);
-
-  //   if(userInput.towLowerCase() ==="no"){  this is currently commented out because it breaks the whole file
-  //  let doesNotHaveSpouse = [];
-  //  doesNotHaveSpouse = people.filter(function(people){
-  //    if(people.currentSpouse  0){
-  //      return doesNotHaveSpouse;
-  //    }
-  //    })
-  //   displayPeople(doesNotHaveSpouse);
+  if(userInput.toLowerCase() === "yes"){
+    let hasSpouse = [];
+    hasSpouse = people.filter(function(people){
+      if(people.currentSpouse > 0){
+        return hasSpouse;
+      }
+    })
+    let traitGroup = hasSpouse;
+    displayPeople(traitGroup);
+    return(traitGroup);
+  }
+  if(userInput.toLowerCase() ==="no"){ 
+    let doesNotHaveSpouse = [];
+    doesNotHaveSpouse = people.filter(function(people){
+      if(people.currentSpouse === null){
+        return doesNotHaveSpouse;
+      }
+    })
+    let traitGroup = doesNotHaveSpouse;
+    displayPeople(traitGroup);
+    return(traitGroup);
   }
 }
 
@@ -639,13 +655,47 @@ function findPersonChildren(person, people){
   if(childrenNames == ""){
     childrenNames = "Unknown";
   }
+  person.children = children;
   return childrenNames;
 }
 
 //#endregion
 
+//Descendant Functions
+/////////////////////////////////////////////////////////////////
+//#region
+function findChildrenAndDescendants(person, people){
+  let childrenNames = findPersonChildren(person, people);
+  person.childrenNames = childrenNames
+  let children = person.children;
+  let descendantsNames = findAllDescendants(children, people);
+  displayDescendants(childrenNames, descendantsNames);
+}
 
-//Display functions
+function findAllDescendants(children, people){
+  let generationOne = children;
+  let descendantsNames = "Generation:  ";
+  let descendants = [];
+  while(generationOne.length > 0){
+    let childOne =generationOne.shift();
+    childOne = childOne.id;
+    descendants = people.filter(function(people){
+      if(childOne == people.parents[0]|| childOne == people.parents[1]){
+        let descendants = people;
+        descendantsNames += descendants.firstName + " " + descendants.lastName + "   ";
+        return descendantsNames, descendants;
+      }
+    })
+      if(descendants.length >=1){
+        descendantsNames += "\n"
+        descendantsNames += findAllDescendants(descendants, people); 
+      }
+    }
+    return descendantsNames;
+}
+//#endregion
+
+//Display Functions
 /////////////////////////////////////////////////////////////////
 //#region 
 
@@ -678,6 +728,10 @@ function displayFamily(person){
   } 
   personInfo += "Children: " + person.childrenNames + "\n";
   alert(personInfo);
+}
+function displayDescendants(childrenNames, descendantsNames){
+  let personDescendants = "Children (generation 0): " + childrenNames + "\n" +descendantsNames;
+  alert("Following is a list of children and further descendents related to the person of your inquiry.\n" + personDescendants)
 }
 //#endregion
 
@@ -775,6 +829,7 @@ function multipleTraitsValid(input){
 //testing
 /////////////////////////////////////////////////////////////////
 //#region
+
 
 
 //#end region
